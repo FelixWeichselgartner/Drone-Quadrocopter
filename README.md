@@ -18,6 +18,20 @@ info@felix-weichselgartner.de
 
 *****************************************************************************************
 
+### File assosiation:
+* .asc -> LTSpice (https://www.analog.com/en/design-center/design-tools-and-calculators/ltspice-simulator.html)
+* .fzz -> Fritzing (http://fritzing.org/home/)
+* .ino -> ArduinoIDE (https://www.arduino.cc/en/Main/Software)
+
+*****************************************************************************************
+
+## Used libraries:
+
+* RFM-95: (https://github.com/adafruit/Fritzing-Library/blob/master/parts/Adafruit%20RFM9x%20LoRa%20Radio.fzpz)
+* Lin-Voltage-Regulator: (https://github.com/lambert/fritzing-parts/blob/master/Voltage%20Regulator%20--%203.3%20V%20--%20LM1117.fzpz)
+
+*****************************************************************************************
+
 ## What I Learned
 
 * drawing schematics with Fritzing.
