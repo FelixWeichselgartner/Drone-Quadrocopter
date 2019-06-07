@@ -2,9 +2,17 @@
 
 An Arduino based Quadrocopter with switch-mode power, rfm95-LoRa-radio and mpu950-accelerometer.
 
-Here an image of the schematic:
+Remote with PS2-Controller and rfm95-LoRa-radio.
+
+Here the schematics for the hardware:
+
+Drone:
 
 ![img](https://github.com/FelixWeichselgartner/Drone-Quadrocopter/blob/master/Drone-Schematic.png)
+
+Remote:
+
+![img](https://github.com/FelixWeichselgartner/Drone-Quadrocopter/blob/master/Remote-Schematic.png)
 
 *****************************************************************************************
 
@@ -19,6 +27,7 @@ info@felix-weichselgartner.de
 *****************************************************************************************
 
 ### File assosiation:
+
 * .asc -> LTSpice (https://www.analog.com/en/design-center/design-tools-and-calculators/ltspice-simulator.html)
 * .fzz -> Fritzing (http://fritzing.org/home/)
 * .ino -> ArduinoIDE (https://www.arduino.cc/en/Main/Software)
@@ -27,6 +36,12 @@ info@felix-weichselgartner.de
 
 ### Used libraries:
 
+Code:
+* MPU9250: https://github.com/bolderflight/MPU9250
+* PS2-Controller: https://github.com/madsci1016/Arduino-PS2X
+* RFM-95: https://github.com/jgromes/LoRaLib
+
+Schematics:
 * RFM-95: (https://github.com/adafruit/Fritzing-Library/blob/master/parts/Adafruit%20RFM9x%20LoRa%20Radio.fzpz)
 * Lin-Voltage-Regulator: (https://github.com/lambert/fritzing-parts/blob/master/Voltage%20Regulator%20--%203.3%20V%20--%20LM1117.fzpz)
 
