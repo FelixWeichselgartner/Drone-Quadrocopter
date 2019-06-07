@@ -43,7 +43,7 @@ Code:
 
 Schematics:
 * RFM-95: (https://github.com/adafruit/Fritzing-Library/blob/master/parts/Adafruit%20RFM9x%20LoRa%20Radio.fzpz)
-* Lin-Voltage-Regulator: (https://github.com/lambert/fritzing-parts/blob/master/Voltage%20Regulator%20--%203.3%20V%20--%20LM1117.fzpz)
+* Lin-Voltage-Regulator (ASM1117): (https://github.com/tardate/LittleArduinoProjects/blob/master/FritzingParts/AMS1117/AMS1117.fzpz)
 
 *****************************************************************************************
 
