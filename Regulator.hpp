@@ -9,10 +9,14 @@ public:
 
     virtual float tick() = 0;
 
-    float getMin() { return this->min; }
-    void setMin(float min) { this->min = min; }
-    float getMax() { return this->max; }
-    void setMax(float max) { this->max = max; }
+    // returns the minimum value.
+    inline float getMin() { return this->min; }
+    // sets the minimum value.
+    inline void setMin(float min) { this->min = min; }
+    // returns the maximum value.
+    inline float getMax() { return this->max; }
+    // sets the maximum value.
+    inline void setMax(float max) { this->max = max; }
 
 private:
 
