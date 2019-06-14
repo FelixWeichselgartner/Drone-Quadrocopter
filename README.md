@@ -8,11 +8,11 @@ Here the schematics for the hardware:
 
 Drone:
 
-![img](https://github.com/FelixWeichselgartner/Drone-Quadrocopter/blob/master/Drone-Schematic.png)
+![img](https://github.com/FelixWeichselgartner/Drone-Quadrocopter/blob/master/schematics/Drone-Schematic.png)
 
 Remote:
 
-![img](https://github.com/FelixWeichselgartner/Drone-Quadrocopter/blob/master/Remote-Schematic.png)
+![img](https://github.com/FelixWeichselgartner/Drone-Quadrocopter/blob/master/schematics/Remote-Schematic.png)
 
 *****************************************************************************************
 
