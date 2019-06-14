@@ -5,8 +5,8 @@ class Motor {
 
 public:
 
+    Motor();
     Motor(int, int, int);
-
     // get the pwm pin the motor control pin is connected to.
     inline int getPin() { return this->pin; }
     // set the pwm pin the motor control pin is connected to.
@@ -26,7 +26,7 @@ private:
 
     // pwm pin.
     int pin;
-    // duty cycle.
+    // duty cycle in 10 * % (e.g. 1000 = 100%).
     int D;
     // switching (pwm) frequency.
     int f;
