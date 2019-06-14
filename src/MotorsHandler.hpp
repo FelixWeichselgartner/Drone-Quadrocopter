@@ -10,19 +10,21 @@ class MotorsHandler {
 
 public:
 
-    MotorsHandler(int, int, int, int, int);
+    MotorsHandler(int, int, int, int, int, int, int, int, int);
     void initMotor(class Motor&);
     void reset();
 
     void refreshAll();
+    bool checkFBVoltage();
 
-public:
+public :
 
     class Motor motors[AMOUNT_MOTORS];
 
 private:
 
     int pins[AMOUNT_MOTORS] = { 0 };
+    int fbpins[AMOUNT_MOTORS] = { 0 };
     int frequency;
 
 };

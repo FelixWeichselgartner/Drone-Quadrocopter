@@ -7,12 +7,24 @@ All rights are reserved.
 #include "src/MotorsHandler.hpp"
 #include "src/PID.hpp"
 #include "src/LiPo.hpp"
+using namespace LiPo;
 #include "src/MPUHandler.hpp"
+#include "src/drone_config.h"
 
 // duty cycle base for compensating earth gravitation.
 int d_base = 300;
-// PWM-Pins: 3, 5, 6, 9; Switching-Frequncy = 50kHz
-class MotorsHandler motorshandler(3, 5, 6, 9, 50000);
+// PWM-Pins, Switching-Frequncy = 50kHz, feedback pins.
+class MotorsHandler motorshandler(
+    MOTOR_1_PWM,
+    MOTOR_2_PWM,
+    MOTOR_3_PWM,
+    MOTOR_4_PWM,
+    50000,
+    MOTOR_1_FB,
+    MOTOR_2_FB,
+    MOTOR_3_FB,
+    MOTOR_4_FB
+);
 
 // pid factors and pid time interval.
 float K_P = 1, K_I = 1, K_D = 1, dt = 0.001;
@@ -22,8 +34,6 @@ float wantedAngleX = 0, wantedAngleY = 0;
 class PID pid_x(0, 1000, K_P, K_I, K_D, dt);
 class PID pid_y(0, 1000, K_P, K_I, K_D, dt);
 
-// Pin to read in battery voltage.
-int pin_lipo = A6;
 // LiPo battery.
 class LiPo lipo(3300, 10);
 
@@ -38,13 +48,13 @@ void loop() {
     float angle_x, angle_y;
     mpuhandler.calculateAngles(angle_x, angle_y);
     
-    float d_x = (int)pid_x(wantedAngleX, angle_x);
-    float d_y = (int)pid_y(wantedAngleY, angle_y);
+    float d_x = (int)pid_x.tick(wantedAngleX, angle_x);
+    float d_y = (int)pid_y.tick(wantedAngleY, angle_y);
     
-    motorshandler.m[0].setD(d_base + d_x);
-    motorshandler.m[1].setD(d_base + d_y);
-    motorshandler.m[2].setD(d_base - d_x);
-    motorshandler.m[3].setD(d_base - d_y);
+    motorshandler.motors[0].setDutyCycle(d_base + d_x);
+    motorshandler.motors[1].setDutyCycle(d_base + d_y);
+    motorshandler.motors[2].setDutyCycle(d_base - d_x);
+    motorshandler.motors[3].setDutyCycle(d_base - d_y);
     
     motorshandler.refreshAll();
 }
