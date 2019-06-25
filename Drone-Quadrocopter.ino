@@ -12,6 +12,8 @@ using namespace LiPo;
 #include "src/drone_config.h"
 
 // duty cycle base for compensating earth gravitation.
+const int mV_base = 1300;
+const int mV_motorPower = 3700;
 int d_base = 300;
 // PWM-Pins, Switching-Frequncy = 50kHz, feedback pins.
 class MotorsHandler motorshandler(
@@ -45,6 +47,9 @@ void setup() {
 }
 
 void loop() {
+    int lipo_mV, lipo_per;
+    lipo.getState(analogRead(LIPO_FB, lipo_mV, lipo_per));
+
     float angle_x, angle_y;
     mpuhandler.calculateAngles(angle_x, angle_y);
     

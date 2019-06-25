@@ -15,6 +15,7 @@ private:
 
     float K_P, K_I, K_D;
     float P, I, D;
+    float I_Max;
     float integrate;
     float ys, prev_e, dt;
 
