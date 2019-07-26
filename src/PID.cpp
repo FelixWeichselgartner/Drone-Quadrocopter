@@ -45,8 +45,8 @@ float PID::tick(float s, float m) {
     this->I = this->K_I * this->integrate;
     
     // anti wind up
-    if (this->I > this->I_Max) this->I = this->I_Max;
-    else if (this->I < -this->I_Max) this->I = -this->I_Max;
+    if (this->integrate > this->I_Max) this->I = this->I_Max;
+    else if (this->integrate < -this->I_Max) this->I = -this->I_Max;
 
     this->D = this->K_D * devrivate;
 

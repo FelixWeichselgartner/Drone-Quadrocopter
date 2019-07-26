@@ -15,6 +15,11 @@ using namespace LiPo;
 const int mV_base = 1300;
 const int mV_motorPower = 3700;
 int d_base = 300;
+
+int updateDBase() {
+    
+}
+
 // PWM-Pins, Switching-Frequncy = 50kHz, feedback pins.
 class MotorsHandler motorshandler(
     MOTOR_1_PWM,
