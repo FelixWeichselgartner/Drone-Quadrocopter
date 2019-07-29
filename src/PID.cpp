@@ -23,6 +23,7 @@ PID::PID(
     this->K_P = K_P;
     this->K_I = K_I;
     this->K_D = K_D;
+    this->I_Max = this->getMax() / K_I;
     this->dt = dt;
     this->integrate = 0;
 }
@@ -42,15 +43,17 @@ float PID::tick(float s, float m) {
 
     this->P = this->K_P * e;
     this->I = this->K_I * this->integrate;
+    
+    // anti wind up
+    if (this->integrate > this->I_Max) this->I = this->I_Max;
+    else if (this->integrate < -this->I_Max) this->I = -this->I_Max;
+
     this->D = this->K_D * devrivate;
 
     float output = this->P + this->I + this->D;
 
-    if (output > this->getMax()) {
-        output = this->getMax();
-    } else if (output < this->getMin()) {
-        output = this->getMin();
-    }
+    if (output > this->getMax()) output = this->getMax();
+    else if (output < this->getMin()) output = this->getMin();
 
     this->prev_e = e;
 
