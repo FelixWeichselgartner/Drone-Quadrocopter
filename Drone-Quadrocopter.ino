@@ -1,6 +1,5 @@
 /*
 Copyright (c) 2019 Felix Weichselgartner
-
 All rights are reserved.
 */
 
@@ -16,8 +15,8 @@ const int mV_base = 1300;
 const int mV_motorPower = 3700;
 int d_base = 300;
 
-int updateDBase() {
-    
+int updateDBase(int mV_lipo) {
+    d_base = mV_base * mV_motorPower / mV_lipo;
 }
 
 // PWM-Pins, Switching-Frequncy = 50kHz, feedback pins.
@@ -54,6 +53,8 @@ void setup() {
 void loop() {
     int lipo_mV, lipo_per;
     lipo.getState(analogRead(LIPO_FB, lipo_mV, lipo_per));
+    
+    updateDBase(lipo_mV);
 
     float angle_x, angle_y;
     mpuhandler.calculateAngles(angle_x, angle_y);
