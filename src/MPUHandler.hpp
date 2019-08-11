@@ -15,7 +15,7 @@ public:
 
 private:
 
-    MPU9250 mpu;
+    MPU9250 mpu = MPU9250(Wire, 0x68);
     float R[3][3];
 
 };

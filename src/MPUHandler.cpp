@@ -17,8 +17,7 @@ void getZRotationMatrix(float R[3][3], int angleDegree) {
     }
 }
 
-MPUHandler::MPUHandler() { 
-    mpu = MPU9250(Wire, 0x68);
+MPUHandler::MPUHandler() {
     getZRotationMatrix(this->R, 45);
     reset();
 }
