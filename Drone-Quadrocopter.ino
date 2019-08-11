@@ -50,7 +50,7 @@ void setup() {
 
 }
 
-void loop() {
+void work() {
     int lipo_mV, lipo_per;
     lipo.getState(analogRead(LIPO_FB, lipo_mV, lipo_per));
     
@@ -68,4 +68,13 @@ void loop() {
     motorshandler.motors[3].setDutyCycle(d_base - d_y);
     
     motorshandler.refreshAll();
+}
+
+void debug() {
+    
+}
+
+void loop() {
+    //work();
+    debug();
 }

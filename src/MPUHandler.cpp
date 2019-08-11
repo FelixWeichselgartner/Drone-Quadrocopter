@@ -38,9 +38,9 @@ void getZRotationMatrix(float *R, angleDegree) {
     }
 }
 
-// M x X * P x P = M x N
-void matmul(float *mat1,  
-            float *mat2,  
+// M x P * P x N = M x N
+void matmul(float *mat1,
+            float *mat2,
             float *res,
             int m, int p, int n) {
 
