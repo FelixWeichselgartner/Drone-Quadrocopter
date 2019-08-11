@@ -1,10 +1,10 @@
 #ifndef LED_HPP_
 #define LED_HPP_
 
-class LED {
-
+class LED
+{
+    // Simple status led.
 public:
-
     LED(int);
 
     inline bool getState() { return this->state; }
@@ -16,10 +16,8 @@ public:
     void off();
 
 private:
-
     bool state;
     int pin;
-
 };
 
 #endif
