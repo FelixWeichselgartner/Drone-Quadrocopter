@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "Motor.hpp"
 
 // https://github.com/atmelino/Arduino/tree/master/libraries/PWM
@@ -16,6 +17,10 @@ Motor::Motor(int pin, int D, int f, int fbpin) {
 
 int Motor::getFBVoltage() {
     return analogRead(this->fbpin) * 3300 / 1024;
+}
+
+long map(long x, long in_min, long in_max, long out_min, long out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 void Motor::refresh() {

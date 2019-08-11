@@ -1,4 +1,6 @@
+#include "Arduino.h"
 #include "MotorsHandler.hpp"
+#include "PWM.h"
 
 MotorsHandler::MotorsHandler(
     int pin_m1, 

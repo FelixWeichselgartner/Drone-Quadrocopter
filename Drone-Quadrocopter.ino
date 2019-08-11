@@ -52,7 +52,7 @@ void setup() {
 
 void work() {
     int lipo_mV, lipo_per;
-    lipo.getState(analogRead(LIPO_FB, lipo_mV, lipo_per));
+    lipo.getState(analogRead(LIPO_FB), lipo_mV, lipo_per);
     
     updateDBase(lipo_mV);
 
@@ -70,8 +70,11 @@ void work() {
     motorshandler.refreshAll();
 }
 
+#include "src/Debug.hpp"
+
 void debug() {
-    
+    class Debug d;
+    d.led();
 }
 
 void loop() {

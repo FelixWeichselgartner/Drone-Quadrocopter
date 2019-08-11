@@ -1,8 +1,25 @@
+#include "Arduino.h"
 #include "MPUHandler.hpp"
 #include "math.h"
 
+void getZRotationMatrix(float R[3][3], int angleDegree) {
+    float angle = angleDegree / 180 * M_PI;
+    float Rs[3][3] = {
+        cos(angle), -sin(angle), 0,
+        sin(angle), cos(angle), 0,
+        0, 0, 1
+    };
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            R[i][j] = Rs[i][j];
+        }
+    }
+}
+
 MPUHandler::MPUHandler() { 
     mpu = MPU9250(Wire, 0x68);
+    getZRotationMatrix(this->R, 45);
     reset();
 }
 
@@ -19,35 +36,14 @@ void MPUHandler::reset() {
     }
 }
 
-void getZRotationMatrix(float *R, angleDegree) {
-    float angle = angleDegree / 180 * M_PI;
-    float Rs[3][3] = {
-        cos(angle), -sin(angle), 0,
-        sin(angle), cos(angle), 0,
-        0, 0, 1
-    };
-
-    if (R != NULL) {
-        delete[] R;
-    }
-    R = new float[3][3];
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            R[i][j] = Rs[i][j];
-        }
-    }
-}
-
 // M x P * P x N = M x N
-void matmul(float *mat1,
-            float *mat2,
-            float *res,
-            int m, int p, int n) {
-
-    if (res != NULL) {
-        delete[] res;
-    }
-    res = new float[m][n];
+#define m 1
+#define p 3
+#define n 3
+void matmul(float mat1[1][3],
+            float mat2[3][3],
+            float res[1][3]) {
+    
 
     for (int i = 0; i < m; i++) { 
         for (int j = 0; j < p; j++) { 
@@ -59,21 +55,20 @@ void matmul(float *mat1,
     } 
 } 
 
-void vektorToAngle(float* v, float& ax, float& ay) {
-    ax = atan(v[0]/(sqrt(v[1]*v[1] + v[2]*v[2])));
-    ay = atan(v[1]/(sqrt(v[0]*v[0] + v[2]*v[2])));
+void vektorToAngle(float v[m][n], float& ax, float& ay) {
+    ax = atan(v[0][0]/(sqrt(v[0][1]*v[0][1] + v[0][2]*v[0][2])));
+    ay = atan(v[0][1]/(sqrt(v[0][0]*v[0][0] + v[0][2]*v[0][2])));
 }
 
 void MPUHandler::calculateAngles(float &ax, float &ay) {
-    float *R;
-    float acc[3], acc_R;
+    float acc[1][3];
+    float acc_R[1][3];
 
     mpu.readSensor();
-    acc[0] = mpu.getAccelX_mss();
-    acc[1] = mpu.getAccelY_mss();
-    acc[2] = mpu.getAccelZ_mss();
+    acc[0][0] = mpu.getAccelX_mss();
+    acc[0][1] = mpu.getAccelY_mss();
+    acc[0][2] = mpu.getAccelZ_mss();
 
-    getZRotationMatrix(R, 45);
-    matmul(acc, R, acc_R, 3, 3, 1);
+    matmul(acc, this->R, acc_R);
     vektorToAngle(acc_R, ax, ay);
 }

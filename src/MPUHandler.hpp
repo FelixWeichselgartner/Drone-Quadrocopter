@@ -16,6 +16,7 @@ public:
 private:
 
     MPU9250 mpu;
+    float R[3][3];
 
 };
 
