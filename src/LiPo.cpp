@@ -14,14 +14,15 @@ const int MV[21] = {
     4110, 4150, 4200};
 
 LiPo::LiPo(int t_v_ref_mv, int t_res) {
+    this->referenceCW = 0;
     setReference(t_v_ref_mv, t_res);
     init();
 }
 
 void LiPo::init() {
     for (int i = 0; i < 21; i++) {
-        m_lookup_table[i].per = i * 5;
-        m_lookup_table[i].mV = MV[i];
+        m_lookup_table[i].percentageLoaded = i * 5;
+        m_lookup_table[i].currentVoltage = MV[i];
     }
 
     for (int i = 0; i < 4; i++) {
@@ -42,12 +43,12 @@ void LiPo::refresh() {
 
     int codeWord = analogRead(LIPO_FB);
     // calculate the current voltage 
-    currentVoltage_mV = codeWord * this->referenceVoltage * this->voltageDividerDenominator / this->voltageDividerNominator;
+    currentVoltage_mV = codeWord * this->referenceVoltage / this->referenceCW * this->voltageDividerDenominator / this->voltageDividerNominator;
 
     int t_x = 0, i = 0;
     int t_delta_down, t_delta_up;
 
-    while (currentVoltage_mV > m_lookup_table[i + 1].mV) {
+    while (currentVoltage_mV > m_lookup_table[i + 1].currentVoltage) {
         t_x++;
         i++;
 
@@ -56,16 +57,16 @@ void LiPo::refresh() {
         }
     }
 
-    if (t_x != 20 && currentVoltage_mV > m_lookup_table[0].mV) {
-        t_delta_down = currentVoltage_mV - m_lookup_table[t_x].mV;
-        t_delta_up = m_lookup_table[t_x + 1].mV - currentVoltage_mV;
+    if (t_x != 20 && currentVoltage_mV > m_lookup_table[0].currentVoltage) {
+        t_delta_down = currentVoltage_mV - m_lookup_table[t_x].currentVoltage;
+        t_delta_up = m_lookup_table[t_x + 1].currentVoltage - currentVoltage_mV;
 
         if (t_delta_up < t_delta_down) {
             t_x++;
         }
     }
 
-    percentageLoaded = m_lookup_table[t_x].per;
+    percentageLoaded = m_lookup_table[t_x].percentageLoaded;
     state = m_lookup_table[t_x].state;
     refreshCounter++;
 }
@@ -85,12 +86,10 @@ int LiPo::getPercentageLoaded() {
     return percentageLoaded;
 }
 
-void LiPo::setReference(int t_v_ref_mv, int t_res)
-{
-    m_v_ref_mv = t_v_ref_mv;
-    for (int i = 0; i < t_res; i++)
-    {
-        m_cw_ref *= 2;
+void LiPo::setReference(int t_v_ref_mv, int t_res) {
+    this->referenceVoltage = t_v_ref_mv;
+    for (int i = 0; i < t_res; i++) {
+        this->referenceCW *= 2;
     }
 }
 
@@ -125,7 +124,7 @@ int main()
     int t_x = 0, i = 0;
     int t_delta_down, t_delta_up;
 
-    while (currentVoltage_mV > m_lookup_table[i + 1].mV)
+    while (currentVoltage_mV > m_lookup_table[i + 1].currentVoltage)
     {
         t_x++;
         i++;
@@ -136,10 +135,10 @@ int main()
         }
     }
 
-    if (t_x != 20 && currentVoltage_mV > m_lookup_table[0].mV)
+    if (t_x != 20 && currentVoltage_mV > m_lookup_table[0].currentVoltage)
     {
-        t_delta_down = currentVoltage_mV - m_lookup_table[t_x].mV;
-        t_delta_up = m_lookup_table[t_x + 1].mV - currentVoltage_mV;
+        t_delta_down = currentVoltage_mV - m_lookup_table[t_x].currentVoltage;
+        t_delta_up = m_lookup_table[t_x + 1].currentVoltage - currentVoltage_mV;
 
         if (t_delta_up < t_delta_down)
         {
@@ -147,7 +146,7 @@ int main()
         }
     }
 
-    percentageLoaded = m_lookup_table[t_x].per;
+    percentageLoaded = m_lookup_table[t_x].percentageLoaded;
     state = m_lookup_table[t_x].state;
 
     cout << "Percentage loaded: " << percentageLoaded << endl;

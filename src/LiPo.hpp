@@ -13,7 +13,7 @@ struct tuple {
  * @retval None
  */
 class LiPo {
-    
+
 public:
 	LiPo(int, int);
 
@@ -37,6 +37,7 @@ private:
 	int currentVoltage_mV;
 	int percentageLoaded;
 	bool state;
+    int referenceCW;
 
 	// percentage of voltage used e.G nominator=1, denominator=2 = 1/2 of the voltage is used.
 	int voltageDividerNominator = 1;

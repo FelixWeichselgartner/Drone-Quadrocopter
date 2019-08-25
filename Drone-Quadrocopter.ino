@@ -6,7 +6,6 @@ All rights are reserved.
 #include "src/MotorsHandler.hpp"
 #include "src/PID.hpp"
 #include "src/LiPo.hpp"
-using namespace LiPo;
 #include "src/MPUHandler.hpp"
 #include "src/drone_config.h"
 
@@ -54,7 +53,10 @@ void setup() {
 
 void work() {
     int lipo_mV, lipo_per;
-    lipo.getState(analogRead(LIPO_FB), lipo_mV, lipo_per);
+    bool lipo_state;
+    lipo_mV = lipo.getCurrentVoltage();
+    lipo_per = lipo.getPercentageLoaded();
+    lipo_state = lipo.getState();
     
     updateDBase(lipo_mV);
 
