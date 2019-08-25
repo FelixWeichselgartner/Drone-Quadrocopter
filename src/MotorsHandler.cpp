@@ -1,7 +1,20 @@
 #include "Arduino.h"
 #include "MotorsHandler.hpp"
-#include "PWM.h"
 
+/**
+ * @brief  gets all motors pins and handles them in a class.
+ * @note   frequency is redundant at the moment.
+ * @param  pin_m1: motor/pwm pins.
+ * @param  pin_m2: 
+ * @param  pin_m3: 
+ * @param  pin_m4: 
+ * @param  frequency: 
+ * @param  fb_m1: feedback pins for actual motor voltage.
+ * @param  fb_m2: 
+ * @param  fb_m3: 
+ * @param  fb_m4: 
+ * @retval 
+ */
 MotorsHandler::MotorsHandler(
     int pin_m1, 
     int pin_m2, 
@@ -27,22 +40,33 @@ MotorsHandler::MotorsHandler(
     reset();
 }
 
+/**
+ * @brief  initialises the motor pin.
+ * @note   
+ * @param  m: motor object
+ * @retval None
+ */
 void MotorsHandler::initMotor(class Motor& m) {
-    if (SetPinFrequencySafe(m.getPin(), m.getSwitchFreq())) {
-        pinMode(m.getPin(), OUTPUT);
-        digitalWrite(m.getPin(), HIGH);
-    }
+    pinMode(m.getPin(), OUTPUT);
 }
 
+/**
+ * @brief  creates the motors objects.
+ * @note   inits all motor pins.
+ * @retval None
+ */
 void MotorsHandler::reset() {
-    InitTimersSafe();
-
     for (int i = 0; i < AMOUNT_MOTORS; i++) {
         motors[i] = Motor(this->pins[i], 0, this->frequency, this->fbpins[i]);
         initMotor(motors[i]);
     }
 }
 
+/**
+ * @brief  adjusts the duty cycle for all motor pins.
+ * @note   
+ * @retval None
+ */
 void MotorsHandler::refreshAll() {
     for (int i = 0; i < AMOUNT_MOTORS; i++) {
         motors[i].refresh();

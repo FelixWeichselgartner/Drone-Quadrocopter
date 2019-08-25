@@ -20,6 +20,7 @@ int updateDBase(int mV_lipo) {
 }
 
 // PWM-Pins, Switching-Frequncy = 50kHz, feedback pins.
+/*
 class MotorsHandler motorshandler(
     MOTOR_1_PWM,
     MOTOR_2_PWM,
@@ -31,9 +32,10 @@ class MotorsHandler motorshandler(
     MOTOR_3_FB,
     MOTOR_4_FB
 );
+*/
 
 // pid factors and pid time interval.
-float K_P = 1, K_I = 1, K_D = 1, dt = 0.001;
+float K_P = 1.4, K_I = 0.2, K_D = 0.75, dt = 0.001;
 // wanted angles.
 float wantedAngleX = 0, wantedAngleY = 0;
 // pid regulator for x and y axis.
@@ -47,7 +49,7 @@ class LiPo lipo(3300, 10);
 class MPUHandler mpuhandler;
 
 void setup() {
-
+    pinMode(3, OUTPUT);
 }
 
 void work() {
@@ -61,13 +63,13 @@ void work() {
     
     float d_x = (int)pid_x.tick(wantedAngleX, angle_x);
     float d_y = (int)pid_y.tick(wantedAngleY, angle_y);
-    
+    /*
     motorshandler.motors[0].setDutyCycle(d_base + d_x);
     motorshandler.motors[1].setDutyCycle(d_base + d_y);
     motorshandler.motors[2].setDutyCycle(d_base - d_x);
     motorshandler.motors[3].setDutyCycle(d_base - d_y);
     
-    motorshandler.refreshAll();
+    motorshandler.refreshAll();*/
 }
 
 #include "src/Debug.hpp"
@@ -75,6 +77,14 @@ void work() {
 void debug() {
     class Debug d;
     d.led();
+    //d.motors(motorshandler);
+    
+    while(1) {
+      digitalWrite(3, HIGH);
+      delay(300);
+      digitalWrite(3, LOW);
+      delay(300);
+    }
 }
 
 void loop() {

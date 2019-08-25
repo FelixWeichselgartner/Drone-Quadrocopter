@@ -2,6 +2,13 @@
 #include "MPUHandler.hpp"
 #include "math.h"
 
+/**
+ * @brief  calculation of a rotation matrix.
+ * @note   
+ * @param  R[3][3]: 
+ * @param  angleDegree: 
+ * @retval None
+ */
 void getZRotationMatrix(float R[3][3], int angleDegree) {
     float angle = angleDegree / 180 * M_PI;
     float Rs[3][3] = {
@@ -17,28 +24,41 @@ void getZRotationMatrix(float R[3][3], int angleDegree) {
     }
 }
 
+/**
+ * @brief  constructor.
+ * @note   calculates a rotation matrix and reset.
+ * @retval 
+ */
 MPUHandler::MPUHandler() {
     getZRotationMatrix(this->R, 45);
     reset();
 }
 
+/**
+ * @brief  checks if communication to mpu module is possible.
+ * @note   if not starts endless loop.
+ * @retval None
+ */
 void MPUHandler::reset() {
     int status = mpu.begin();
     if (status < 0) {
-        /*
-        Serial.println("IMU initialization unsuccessful");
-        Serial.println("Check IMU wiring or try cycling power");
-        Serial.print("Status: ");
-        Serial.println(status);
-        */
         while(1) {}
     }
 }
 
+// matrix shapes.
 // M x P * P x N = M x N
 #define m 1
 #define p 3
 #define n 3
+/**
+ * @brief  matrix multiplication.
+ * @note   
+ * @param  mat1[1][3]: vector
+ * @param  mat2[3][3]: matrix
+ * @param  res[1][3]: vector
+ * @retval None
+ */
 void matmul(float mat1[1][3],
             float mat2[3][3],
             float res[1][3]) {
@@ -54,11 +74,26 @@ void matmul(float mat1[1][3],
     } 
 } 
 
+/**
+ * @brief  converts angles from the gravitation acceleration vector.
+ * @note   
+ * @param  v[m][n]: vector
+ * @param  ax: angle in x
+ * @param  ay: angle in y
+ * @retval None
+ */
 void vektorToAngle(float v[m][n], float& ax, float& ay) {
     ax = atan(v[0][0]/(sqrt(v[0][1]*v[0][1] + v[0][2]*v[0][2])));
     ay = atan(v[0][1]/(sqrt(v[0][0]*v[0][0] + v[0][2]*v[0][2])));
 }
 
+/**
+ * @brief  calculates x and y angle
+ * @note   used in regulator.
+ * @param  &ax: 
+ * @param  &ay: 
+ * @retval None
+ */
 void MPUHandler::calculateAngles(float &ax, float &ay) {
     float acc[1][3];
     float acc_R[1][3];

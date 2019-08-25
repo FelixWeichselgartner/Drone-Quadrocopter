@@ -40,7 +40,6 @@ Code:
 * MPU9250: https://github.com/bolderflight/MPU9250
 * PS2-Controller: https://github.com/madsci1016/Arduino-PS2X
 * RFM-95: https://github.com/jgromes/LoRaLib
-* PWM: https://github.com/atmelino/Arduino/tree/master/libraries/PWM
 
 Schematics:
 * RFM-95: (https://github.com/adafruit/Fritzing-Library/blob/master/parts/Adafruit%20RFM9x%20LoRa%20Radio.fzpz)

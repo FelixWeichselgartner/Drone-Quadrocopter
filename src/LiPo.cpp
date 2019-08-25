@@ -1,5 +1,10 @@
 #include "LiPo.hpp"
 
+/**
+ * @brief  table for volt/percentage of lipo cells.
+ * @note   first is 0%, last value is 100%, 5% steps in between
+ * @retval None
+ */
 const int MV[21] = {
     3270, 3610, 3690, 3710, 3730, 3750, 
     3770, 3790, 3800, 3820, 3840, 3850, 
