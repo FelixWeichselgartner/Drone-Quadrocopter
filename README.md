@@ -56,3 +56,9 @@ Schematics:
 * programming a regulator.
 * communication via LoRa-radio modules.
 * using linear voltage regulators.
+
+## What I would change next time
+
+* use a bigger drone frame
+* use 7.4V LiPo cells and a 5V regulator
+* use a radio module with a higher bandwith to be able to stream video
