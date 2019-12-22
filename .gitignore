@@ -1,6 +1,3 @@
-.vs
 .vscode
 lib/
-src/src.ino
-
-remote/
+drone/src/src.ino
