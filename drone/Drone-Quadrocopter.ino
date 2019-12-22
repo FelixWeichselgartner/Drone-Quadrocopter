@@ -19,7 +19,6 @@ int updateDBase(int mV_lipo) {
 }
 
 // PWM-Pins, Switching-Frequncy = 50kHz, feedback pins.
-/*
 class MotorsHandler motorshandler(
     MOTOR_1_PWM,
     MOTOR_2_PWM,
@@ -31,7 +30,6 @@ class MotorsHandler motorshandler(
     MOTOR_3_FB,
     MOTOR_4_FB
 );
-*/
 
 // pid factors and pid time interval.
 float K_P = 1.4, K_I = 0.2, K_D = 0.75, dt = 0.001;
@@ -57,7 +55,6 @@ void work() {
     lipo_mV = lipo.getCurrentVoltage();
     lipo_per = lipo.getPercentageLoaded();
     lipo_state = lipo.getState();
-    
     updateDBase(lipo_mV);
 
     float angle_x, angle_y;
@@ -65,31 +62,15 @@ void work() {
     
     float d_x = (int)pid_x.tick(wantedAngleX, angle_x);
     float d_y = (int)pid_y.tick(wantedAngleY, angle_y);
-    /*
+    
     motorshandler.motors[0].setDutyCycle(d_base + d_x);
     motorshandler.motors[1].setDutyCycle(d_base + d_y);
     motorshandler.motors[2].setDutyCycle(d_base - d_x);
     motorshandler.motors[3].setDutyCycle(d_base - d_y);
     
-    motorshandler.refreshAll();*/
-}
-
-#include "src/Debug.hpp"
-
-void debug() {
-    class Debug d;
-    d.led();
-    //d.motors(motorshandler);
-    
-    while(1) {
-      digitalWrite(3, HIGH);
-      delay(300);
-      digitalWrite(3, LOW);
-      delay(300);
-    }
+    motorshandler.refreshAll();
 }
 
 void loop() {
-    //work();
-    debug();
+    work();
 }
