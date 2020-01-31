@@ -6,7 +6,7 @@ class Motor {
 public:
 
     Motor();
-    Motor(int, int, int, int);
+    Motor(int, int, int);
     
     // get the pwm pin the motor control pin is connected to.
     inline int getPin() const { return this->pin; }
@@ -16,10 +16,6 @@ public:
     inline int getDutyCycle() const { return this->D; }
     // set the current duty cycle of the motor.
     inline void setDutyCycle(int D) { this->D = D; }
-    // get the current switching (pwm) frequency of the motor.
-    inline int getSwitchFreq() const { return this->f; }
-    // set the current switching (pwm) frequency of the motor.
-    inline void setSwitchFreq(int f) { this->f = f; }
     // get analog feedback pin.
     inline int getFBPin() const { return this->fbpin; }
     // set analog feedback pin.
@@ -36,8 +32,6 @@ private:
     int pin;
     // duty cycle in 10 * % (e.g. 1000 = 100%).
     int D;
-    // switching (pwm) frequency.
-    int f;
     // analog feedback pin.
     int fbpin;
 

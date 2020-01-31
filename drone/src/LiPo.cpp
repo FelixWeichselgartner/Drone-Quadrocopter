@@ -14,7 +14,6 @@ const int MV[21] = {
     4110, 4150, 4200};
 
 LiPo::LiPo(int t_v_ref_mv, int t_res) {
-    this->referenceCW = 0;
     setReference(t_v_ref_mv, t_res);
     init();
 }
@@ -35,15 +34,24 @@ void LiPo::init() {
 }
 
 void LiPo::refresh() {
-
     if (refreshCounter % refreshInterval != 0) {
         // only refresh every refreshInterval th time.
+        refreshCounter++;
         return;
     }
 
-    int codeWord = analogRead(LIPO_FB);
+    int codeWord = 0, n = 20;
+    for (int i = 0; i < n; i++) {
+        codeWord += analogRead(LIPO_FB);
+    }
+    codeWord /= n;
+
+    if (Serial) {
+        Serial.print("CW: ");
+        Serial.println(codeWord);
+    }
     // calculate the current voltage 
-    currentVoltage_mV = codeWord * this->referenceVoltage / this->referenceCW * this->voltageDividerDenominator / this->voltageDividerNominator;
+    currentVoltage_mV = (long long) (codeWord * this->voltageDividerDenominator / this->voltageDividerNominator) * this->referenceVoltage / this->referenceCW;
 
     int t_x = 0, i = 0;
     int t_delta_down, t_delta_up;
@@ -88,71 +96,8 @@ int LiPo::getPercentageLoaded() {
 
 void LiPo::setReference(int t_v_ref_mv, int t_res) {
     this->referenceVoltage = t_v_ref_mv;
+    this->referenceCW = 1;
     for (int i = 0; i < t_res; i++) {
         this->referenceCW *= 2;
     }
 }
-
-//#define EXAMPLE
-
-#ifdef EXAMPLE
-
-#include <iostream>
-using namespace std;
-
-using namespace LiPo;
-
-int main()
-{
-    // U_ref = 3V3
-    // ADC resolution = 10 bits
-    class LiPo lipo(3300, 10);
-
-    // current lipo cw
-    int myCurrentCw = 4020 * 1024 / 3300 / 2;
-    int myCurrent_mV;
-
-    // battery percentage
-    int percentageLoaded;
-    bool state;
-    int currentVoltage_mV = myCurrentCw * 3300 * 2 / 1;
-
-
-    // calculate the current voltage 
-    int currentVoltage_mV = myCurrentCw * this->referenceVoltage * this->voltageDividerDenominator / this->voltageDividerNominator;
-
-    int t_x = 0, i = 0;
-    int t_delta_down, t_delta_up;
-
-    while (currentVoltage_mV > m_lookup_table[i + 1].currentVoltage)
-    {
-        t_x++;
-        i++;
-
-        if (t_x == 20)
-        {
-            break;
-        }
-    }
-
-    if (t_x != 20 && currentVoltage_mV > m_lookup_table[0].currentVoltage)
-    {
-        t_delta_down = currentVoltage_mV - m_lookup_table[t_x].currentVoltage;
-        t_delta_up = m_lookup_table[t_x + 1].currentVoltage - currentVoltage_mV;
-
-        if (t_delta_up < t_delta_down)
-        {
-            t_x++;
-        }
-    }
-
-    percentageLoaded = m_lookup_table[t_x].percentageLoaded;
-    state = m_lookup_table[t_x].state;
-
-    cout << "Percentage loaded: " << percentageLoaded << endl;
-    cout << "voltage: " << 
-
-    return 0;
-}
-
-#endif

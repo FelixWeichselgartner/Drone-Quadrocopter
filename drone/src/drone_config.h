@@ -14,11 +14,11 @@
 #define MOTOR_4_FB      A3
 
 // lipo feedback pin.
-#define LIPO_FB         A5
+#define LIPO_FB         A6
 
 // i2c pins.
-#define I2C_SDA         A4
-#define I2C_SCL         A5
+#define I2C_SDA         20//A4
+#define I2C_SCL         21//A5
 
 // spi pins.
 #define SPI_RFM95_CS    8

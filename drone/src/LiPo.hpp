@@ -30,8 +30,8 @@ private:
 	 */
 	void refresh();
 	struct tuple m_lookup_table[21];
-	//only actually refreshes every 6th call
-	unsigned int refreshInterval = 6;
+	//only actually refreshes every 5th call
+	unsigned int refreshInterval = 5;
 	unsigned int refreshCounter;
 	int referenceVoltage;
 	int currentVoltage_mV;

@@ -1,8 +1,6 @@
 #include "Arduino.h"
 #include "Motor.hpp"
 
-// https://github.com/atmelino/Arduino/tree/master/libraries/PWM
-//#include "PWM.h"
 
 /**
  * @brief  default constructor (not used)
@@ -10,22 +8,20 @@
  * @retval 
  */
 Motor::Motor() {
-    this->pin = this->D = this->f = this->fbpin = 0;
+    this->pin = this->D = this->fbpin = 0;
 }
 
 /**
  * @brief  constructor.
- * @note   saves pin, duty cycle, frequency (redundant) and feedback pin.
+ * @note   saves pin, duty cycle and feedback pin.
  * @param  pin: 
  * @param  D: 
- * @param  f: 
  * @param  fbpin: 
  * @retval 
  */
-Motor::Motor(int pin, int D, int f, int fbpin) {
+Motor::Motor(int pin, int D, int fbpin) {
     this->pin = pin;
     this->D = D;
-    this->f = f;
     this->fbpin = fbpin;
 }
 
@@ -35,7 +31,7 @@ Motor::Motor(int pin, int D, int f, int fbpin) {
  * @retval 
  */
 int Motor::getFBVoltage() {
-    return analogRead(this->fbpin) * 5000 / 1024;
+    return (long long) analogRead(this->fbpin) * 5000 / 1024;
 }
 
 /**

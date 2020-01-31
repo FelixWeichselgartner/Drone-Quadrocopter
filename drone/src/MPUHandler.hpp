@@ -8,13 +8,13 @@ class MPUHandler
 {
 
 public:
-    MPUHandler();
+    MPUHandler(MPU9250*);
     void reset();
 
     void calculateAngles(float &, float &);
 
 private:
-    MPU9250 mpu = MPU9250(Wire, 0x68);
+    MPU9250* mpu;
     float R[3][3];
 };
 
