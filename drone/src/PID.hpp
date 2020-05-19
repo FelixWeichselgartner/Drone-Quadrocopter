@@ -7,9 +7,9 @@ class PID: public Regulator {
 
 public:
 
-    PID(float, float, float, float, float, float);
+    PID(float, float, float, float, float);
 
-    float tick(float, float);
+    float tick(float, float, unsigned int);
 
 private:
 
@@ -17,7 +17,7 @@ private:
     float P, I, D;
     float I_Max;
     float integrate;
-    float ys, prev_e, dt;
+    float ys, prev_e;
 
 };
 

@@ -101,12 +101,13 @@ void MPUHandler::calculateAngles(float &ax, float &ay) {
     acc[0][1] = mpu->getAccelY_mss();
     acc[0][2] = mpu->getAccelZ_mss();
 
+    /*
     Serial.print(acc[0][0]);
     Serial.print(" ");
     Serial.print(acc[0][1]);
     Serial.print(" ");
     Serial.print(acc[0][2]);
-    Serial.println(" ");
+    Serial.println(" ");*/
 
     matmul(acc, this->R, acc_R);
     vektorToAngle(acc_R, ax, ay);

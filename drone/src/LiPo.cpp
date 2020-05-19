@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "drone_config.h"
 #include "LiPo.hpp"
+#include "debug.h"
 
 /**
  * @brief  table for volt/percentage of lipo cells.
@@ -46,10 +47,13 @@ void LiPo::refresh() {
     }
     codeWord /= n;
 
-    if (Serial) {
+    #if DEBUG
+    /*if (Serial) {
         Serial.print("CW: ");
         Serial.println(codeWord);
-    }
+    }*/
+    #endif
+    
     // calculate the current voltage 
     currentVoltage_mV = (long long) (codeWord * this->voltageDividerDenominator / this->voltageDividerNominator) * this->referenceVoltage / this->referenceCW;
 
